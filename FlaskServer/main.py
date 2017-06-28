@@ -77,9 +77,9 @@ def main():
     global back
     
     if back == True:
-        return render_template("templates/index.html")
+        return render_template("index.html")
     else:
-        return render_template("templates/out.html")
+        return render_template("out.html")
 
 
 
