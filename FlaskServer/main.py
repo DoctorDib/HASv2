@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 
 
 from time import gmtime, strftime
@@ -141,9 +141,12 @@ def ON():
         sendToPi("BOTHON")
 
 @app.route('/ProcessADMIN', methods=['ADMIN'])
-def ADMIN():
-    return "hi"
+def processADMIN():
+    adminDirect()
 
+@app.route('/ADMIN')
+def adminDirect():
+    return render_template("out.html")
 
 
         
