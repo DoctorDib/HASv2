@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, redirect, url_for
 
 from time import gmtime, strftime
 import threading, socket, time
-import os, sys
+import os, sys, webbrowser
 
 import threading
 from threading import Thread
@@ -75,11 +75,10 @@ def sendToPi(lightSet):
 @app.route('/')
 def main():
     global back
-    
-    if back == True:
-        return render_template("index.html")
-    else:
-        return render_template("out.html")
+
+    return render_template("index.html")
+    #else:
+        #return render_template("out.html")
 
 
 
@@ -140,12 +139,44 @@ def ON():
     if dayLight == False:
         sendToPi("BOTHON")
 
-@app.route('/ProcessADMIN', methods=['ADMIN'])
-def processADMIN():
-    return redirect(url_for('ADMIN'))
 
-@app.route('/ADMIN')
-def ADMIN():
+##################################
+
+
+@app.route('/ProcessFSOn', methods=['FSOn'])
+def FlaskServerOn():
+    try:
+    except:
+        print "FAILED to launch Flasknet Server"
+	
+@app.route('/ProcessFSOff', methods=['FSOff'])
+def FlaskServerOff():
+    try:
+    except:
+        print "Server is already off"
+    
+
+
+	
+@app.route('/ProcessTNSOn', methods=['TNSOn'])
+def TelNetServerOn():
+    try:
+    except:
+        print "FAILED to launch TelNet Server"
+	
+@app.route('/ProcessTNSOff', methods=['TNSOff'])
+def TelNetServerOff():
+    try:
+    except:
+        print "Server is already off"
+    
+    
+#################################
+
+
+
+@app.route('/ADMINpage')
+def ADMINpage():
     return render_template("admin.html")
 
 

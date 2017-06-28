@@ -88,3 +88,61 @@ $(document).ready(function(){
 		});
 	});
 });
+
+
+
+
+
+
+
+$(document).ready(function(){
+    $('#flskServOn').click(function(){
+
+		$.ajax({
+			type: 'FSOn',
+			url: '/ProcessFSOn',
+			success: function(data){
+				alert(data);
+			}			
+		});
+	});
+});
+
+$(document).ready(function(){
+	$('#flskServOff').click(function(){
+
+		$.ajax({
+			type: 'FSOff',
+			url: '/ProcessFSOff',
+			success: function(data){
+				alert(data);
+			}
+		});
+	});
+});
+	
+$(document).ready(function(){
+	$('#TelNetServOn').click(function(){
+
+		$.ajax({
+			type: 'TNSOn',
+			url: '/ProcessTNSOn',
+			success: function(data){
+				alert(data);
+			}
+		});
+	});
+});
+
+$(document).ready(function(){
+	$('#TelNetServOff').click(function(){
+
+		$.ajax({
+			type: 'TNSOff',
+			url: '/ProcessTNSOff',
+			success: function(data){
+				alert(data);
+			}
+		});
+	});
+});
