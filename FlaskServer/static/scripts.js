@@ -75,3 +75,16 @@ $(document).ready(function(){
 		});
 	});
 });  
+
+$(document).ready(function(){	
+	$('#btnADMIN').click(function(){
+
+		$.ajax({
+			type: 'ADMIN',
+			url: '/ProcessADMIN',
+			success: function(data){
+				alert(data);
+			}
+		});
+	});
+});

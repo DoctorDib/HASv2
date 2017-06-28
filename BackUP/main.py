@@ -142,7 +142,7 @@ def ON():
 
 @app.route('/ProcessADMIN', methods=['ADMIN'])
 def ADMIN():
-    return "hi"
+    
 
 
 
