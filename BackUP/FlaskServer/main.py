@@ -4,11 +4,12 @@ from flask import Flask, request, render_template
 
 from time import gmtime, strftime
 import threading, socket, time
-import os
+import os, sys
+
+import threading
+from threading import Thread
 
 app = Flask(__name__)
-
-pinList = [2, 3]
 
 tick = 0
 
@@ -24,33 +25,6 @@ sleep = False
 
 
 
-
-
-
-#=============================
-message = ""
-
-serversocket = socket.socket(
-                        socket.AF_INET, socket.SOCK_STREAM) 
-
-host = "151.80.140.199"
-port = 5005                                  
-
-serversocket.bind((host, port))                                  
-serversocket.listen(5)
-#==============================
-
-
-
-#=========================================
-global light1
-
-global light2
-#=========================================
-
-
-
-
 #dayLightSave = False
 
 def background():
@@ -59,9 +33,8 @@ def background():
     global sleep
     global tick
     global back
-    
+
     while True:
-        
         hour = int(strftime("%H"))
         if hour >= 8 and hour <= 17:
             sleep = False
@@ -69,36 +42,32 @@ def background():
             
         elif hour > 18 and hour <= 24 or hour >= 1 and hour < 8:
             dayLight = False
-            
-
-     
-
-def sendToPi():
 
 
+def sendToPi(lightSet):
     
-    while True:
-        conn, addr = serversocket.accept()
-        print 'Connected by', addr
-        conn.send("confirm")
-        conn.close()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    host = "151.80.140.199"                        
+    port = 2526
 
+    try:
+        s.connect((host, port))
+        tm = s.recv(1024)
 
+        ##
+        message = lightSet
+        
+        
+        print (sys.stderr, 'sending "%s"' % message)
+        s.send(message.encode('ascii') + "\n")
+        ##
 
         
-
-        clientsocket,addr = serversocket.accept()      
-
-        print("Got a connection from %s" % str(addr))
-                
-        light1Message = str(light1)
-
-        light2Message = str(light2)
+        s.close()
         
-        clientsocket.send(light1Message.encode('ascii') + " " + light2Message.encode('ascii'))
 
-        clientsocket.close()
-        
+    except:
+        s.close()
 
 
 
@@ -108,9 +77,9 @@ def main():
     global back
     
     if back == True:
-        return render_template("index.html")
+        return render_template("templates/index.html")
     else:
-        return render_template("out.html")
+        return render_template("templates/out.html")
 
 
 
@@ -120,14 +89,14 @@ def Light1On():
     global back
     if back == True:
         print "ON"
-        light1 = True
+        sendToPi("l1On")
     elif back == False:
         print "FAILED: to turn on light 1"
     
 	
 @app.route('/ProcessL1Off', methods=['L1Off'])
 def Light1Off():
-    light1 = False
+    sendToPi("l1Off")
 	
 	
 @app.route('/ProcessL2On', methods=['L2On'])
@@ -137,19 +106,18 @@ def Light2On():
     print back
     if back == True:
         print "ON"
-        light2 = True
+        sendToPi("l2On")
     elif back == False:
         print "FAILED: to turn on light 2"
     
 	
 @app.route('/ProcessL2Off', methods=['L2Off'])
 def Light2Off():
-    light2 = False
+    sendToPi("l2Off")
 
 @app.route('/ProcessOFF', methods=['OFF'])
 def OFF():
-    light1 = False
-    light2 = False
+    sendToPi("BOTHOFF")
 
 @app.route('/ProcessSLEEP', methods=['SLEEP'])
 def sleep():
@@ -170,18 +138,21 @@ def wake():
 def ON():
     global dayLight
     if dayLight == False:
-        light1 = True
-        light2 = True
+        sendToPi("BOTHON")
 
 
 def mainSetup():
-    t = threading.Thread(target=background)
-    t.start()
-
-    p = threading.Thread(target=sendToPi)
-    p.start()
-
+    print "Preparing"
+    #Thread(target = background()).start()
+    print "1"
+    #Thread(target = telnetSet()).start()
+    print "2"
+    Thread(target = sendToPi("BOTHOFF")).start()
+    print "3"
     
+
+
+    print "Setup complete - Booting up..."
     launch()
 
 
@@ -189,9 +160,9 @@ def launch():
     print "...Launching Systems..."
     print "...Launching Web Server..."
     app.run(host='151.80.140.199')
-    print "Web application can be found: 192.168.0.29:5000"
+    print "Web application can be found: 151.80.140.199:5000"
     
-    print "Enjoy!"
+    print "Boot up complete"
     main()
 
 mainSetup()
