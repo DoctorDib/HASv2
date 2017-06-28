@@ -142,10 +142,10 @@ def ON():
 
 @app.route('/ProcessADMIN', methods=['ADMIN'])
 def processADMIN():
-    return redirect("151.80.140.199:5000/ADMIN", code=302)
+    return redirect(url_for('ADMIN'))
 
 @app.route('/ADMIN')
-def adminDirect():
+def ADMIN():
     return render_template("admin.html")
 
 
