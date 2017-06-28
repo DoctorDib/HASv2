@@ -1,3 +1,3 @@
-import os
+import subprocess
 
-os.system("FlaskServer/main.py")
+subprocess.Popen("Flaskserver/main.py 1", shell=True)
