@@ -9,7 +9,7 @@ import socket
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(3, GPIO.OUT)
 GPIO.setup(2, GPIO.OUT)
-GPIO.setup(1, GPIO.OUT)
+GPIO.setup(4, GPIO.OUT)
 
 
 auth = "74:A5:28:FA:51:B7"
@@ -157,7 +157,7 @@ def plugOn():
 
 def plugOff():
     print "PLUG OFF"
-    GPIO.output(1, GPIO.HIGH)
+    GPIO.output(4, GPIO.HIGH)
     main()
 
 def BOTHON():
