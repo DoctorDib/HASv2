@@ -8,7 +8,8 @@ import socket
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(3, GPIO.OUT)
-GPIO.setup(2, GPIO.OUT) 
+GPIO.setup(2, GPIO.OUT)
+GPIO.setup(1, GPIO.OUT)
 
 
 auth = "74:A5:28:FA:51:B7"
@@ -143,6 +144,22 @@ def light2Off():
     GPIO.output(3, GPIO.HIGH)
     main()
 
+def plugOn():
+    global back
+
+    if back == True:
+        print "ON"
+        GPIO.output(1, GPIO.LOW)
+    elif back == False:
+        print "FAILED: to turn on plug"
+        
+    main()
+
+def plugOff():
+    print "PLUG OFF"
+    GPIO.output(1, GPIO.HIGH)
+    main()
+
 def BOTHON():
     print "BOTH ON"
     GPIO.output(3, GPIO.LOW)
@@ -183,6 +200,14 @@ def main():
         elif "l2Off" in answer: 
            print "Light 2 Off"
            light2Off()
+        elif "plugOn" in answer:
+            print "Plug On"
+            plugOn()
+        elif "plugOff" in answer:
+            print "Plug Off"
+            plugOff()
+        else:
+            print "COMMAND UNKNOWN"
 
     socket.close()
 

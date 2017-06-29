@@ -114,6 +114,24 @@ def Light2On():
 def Light2Off():
     sendToPi("l2Off")
 
+
+@app.route('/ProcessPlugOn', methods=['plugOn'])
+def plugOn():
+    global back
+
+    print back
+    if back == True:
+        print "ON"
+        sendToPi("plugOn")
+    elif back == False:
+        print "FAILED: to turn on plug"
+    
+	
+@app.route('/ProcessPlugOff', methods=['plugOff'])
+def plugOff():
+    sendToPi("plugOff")
+    
+
 @app.route('/ProcessOFF', methods=['OFF'])
 def OFF():
     sendToPi("BOTHOFF")
@@ -142,16 +160,10 @@ def ON():
 
 ##################################
 
-
-@app.route('/ProcessFSOn', methods=['FSOn'])
-def FlaskServerOn():
-    try:
-    except:
-        print "FAILED to launch Flasknet Server"
-	
 @app.route('/ProcessFSOff', methods=['FSOff'])
 def FlaskServerOff():
     try:
+        os.system("sudo pkill -f main.py")
     except:
         print "Server is already off"
     
@@ -161,12 +173,14 @@ def FlaskServerOff():
 @app.route('/ProcessTNSOn', methods=['TNSOn'])
 def TelNetServerOn():
     try:
+        os.system("sudo nohup python ~/HASv2/TelNetServer/TelNetServer.py & disown")
     except:
         print "FAILED to launch TelNet Server"
 	
 @app.route('/ProcessTNSOff', methods=['TNSOff'])
 def TelNetServerOff():
     try:
+        os.system("sudo pkill -f TelNetServer.py")
     except:
         print "Server is already off"
     

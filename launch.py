@@ -1,3 +1,5 @@
-import subprocess
+#!/usr/bin/python2.7
 
-subprocess.Popen("FlaskServer/main.py 1", shell=True)
+import os
+
+os.system("nohup python HASv2/FlaskServer/main.py & disown")

@@ -20,12 +20,8 @@
         <h1> I AM AN ADMIN! </h1>
 		
 		<ul>
-			<section class="buttonBoxSections">
-				<div class="buttonDiv">
-					<input type="button" id="flskServOn" value="FLASK SERVER: ON">
-				</div>
-										
-				<div class="buttonDiv">
+			<section class="buttonBoxSections">			
+				<div class="buttonDiv" id="FlskOff">
 					<input type="button" id="flskServOff" value="FLASK SERVER: OFF">
 				</div>
             </section>
@@ -33,13 +29,22 @@
 		
 		<ul>	
             <section class="buttonBoxSections">
-                <div class="buttonDiv">
+                <div class="buttonDiv" id="TelOn">
                     <input type="button" id="TelNetServOn" value="TELNET SERVER: ON">
                 </div>
                                     
-                <div class="buttonDiv">
+                <div class="buttonDiv" id="TelOff">
                     <input type="button" id="TelNetServOff" value="TELNET SERVER: OFF">
                 </div>
+            </section>
+        </ul>
+		
+		<ul>
+			<section class="buttonBoxSections">
+									
+				<div class="buttonDivBottom">
+					<input type="button" id="btnADMIN" onclick="location.href='http://151.80.140.199:5000/'" value="Back to home">
+				</div>
             </section>
         </ul>
     </body>
